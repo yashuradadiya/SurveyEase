@@ -1,0 +1,53 @@
+body {
+  margin: 0 !important;
+}
+
+#header-color {
+  background-color: #1170a8;
+}
+
+.que_container {
+  margin: auto;
+  width: 100%;
+  max-width: 1120px;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.custom_header {
+  padding: 20px 0 20px 0;
+  color: white;
+  margin-top: 0;
+}
+
+.custom_sec_header {
+  padding: 20px 0;
+  color: #1170a8;
+
+}
+
+.que_container>.que_title>hr {
+  border-top: solid 1px #ddd;
+  margin: 0px 0 35px 0;
+}
+
+.greeting {
+  margin: 40px 0;
+}
+
+.greeting>p {
+  font-size: 16px;
+  color: #444;
+}
+
+.questions {
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.custom_options {
+  padding: 7px 10px 7px 7Px !important;
+  margin: 0 8px 5px 0 !important;
+  overflow: visible !important;
+}
