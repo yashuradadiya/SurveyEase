@@ -109,12 +109,12 @@ if (isset($_SESSION['admin_id'])) {
 </head>
 
 <body>
+  <div class="otp-container">
   <div>
     <p>
       <?php echo @$msg; ?>
     </p>
   </div>
-  <div class="otp-container">
     <h1>OTP Verification</h1>
     <p>Please enter the 6-digit code sent to your email.</p>
 
