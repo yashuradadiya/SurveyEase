@@ -62,7 +62,7 @@ if (isset($_SESSION['user_id'])) {
                      <input type="password" class="form-control" placeholder="password" name="password" required />
                   </div>
                   <div>
-                     <button type="submit" name="login" value="submit" class="btn btn-success btn-block">Login</button>
+                     <button type="submit" name="login" value="submit" class="btn btn-success btn_success btn-block">Login</button>
                   </div>
                   <div class="clearfix"></div>
                   <div class="separator">

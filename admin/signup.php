@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
     ';
     $responce = sendMail($email,$sub,$message);
     if ($responce=='true'){
-      $_SESSION['otp_survey'] = $random_number;
+      $_SESSION['otp_admin'] = $random_number;
       $_SESSION['admin_name'] = $name;
       $_SESSION['admin_email'] = $email;
       $_SESSION['admin_contact'] = $contact;
@@ -95,7 +95,7 @@ if (isset($_POST['submit'])) {
               <input type="password" class="form-control" placeholder="Password" name="password" required />
             </div>
             <div>
-              <button type="submit" name="submit" value="submit" class="btn btn-success btn-block">Register</button>
+              <button type="submit" name="submit" value="submit" class="btn btn-success btn_success btn-block">Register</button>
             </div>
             <div class="separator">
               <p class="change_link">Already Admin ?

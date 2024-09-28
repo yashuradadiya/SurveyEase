@@ -10,4 +10,8 @@
 
 #slash{
 	display: none;
-}
+}.btn_success{
+	color: #FFF !important;
+	background-color: #26B99A !important;
+	border-color: #26B99A !important;
+  }

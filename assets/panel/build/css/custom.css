@@ -4973,3 +4973,8 @@ ul.notifications {
 
 .calendar-exibit .calendar-table {
   padding: 0 0 4px 0; }
+.btn_success{
+  color: #FFF !important;
+  background-color: #26B99A !important;
+  border-color: #26B99A !important;
+}
