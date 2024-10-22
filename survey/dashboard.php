@@ -28,7 +28,7 @@ if (!isset($_SESSION['survey_creator'])) {
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Survey Creator | Dashboard</title>
+  <title>Dashboard</title>
   <link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/panel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="../assets/panel/vendors/nprogress/nprogress.css" rel="stylesheet">
@@ -153,9 +153,7 @@ if (!isset($_SESSION['survey_creator'])) {
   <script src="../assets/panel/build/js/custom.min.js"></script>
 
   <script>
-    // Loop through each canvas with class 'surveyChart'
     document.querySelectorAll('.surveyChart').forEach(function(canvas) {
-      // Get the dates and counts from the canvas data attributes
       var dates = JSON.parse(canvas.getAttribute('data-dates'));
       var counts = JSON.parse(canvas.getAttribute('data-counts'));
 

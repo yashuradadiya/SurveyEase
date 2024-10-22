@@ -1,3 +1,16 @@
+<?php
+
+$con = mysqli_connect("localhost", "root", "", "online_survey_system");
+
+if (isset($_POST['submit'])) {
+  $name = $_POST['name'];
+  $email = $_POST['email'];
+  $subject = $_POST['subject'];
+  $message = $_POST['message'];
+  $sql_feedback = "INSERT INTO user_feedback (Name,Email,Subject,Message) VALUES ('$name','$email','$subject','$message')";
+  $result_feedback = mysqli_query($con, $sql_feedback);
+}
+?>
 <!DOCTYPE html>
 <html data-wf-page="63ece81ba4a783765134aad6" lang="en">
 
@@ -312,6 +325,113 @@ include "header.php";
         <img src="assets/user/main_web/imgae/c_logo.png  " loading="lazy" width="888"
           sizes="(max-width: 479px) 91vw, (max-width: 767px) 94vw, (max-width: 991px) 92vw, 888px" alt=""
           class="safe-hands-logos">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="padding-large">
+  <div class="section-how-are-we-different">
+    <div class="container-medium">
+      <div class="max-width-large text-align-center align-center">
+        <h2>Give Feedback</h2>
+        <div class="spacer-medium"></div>
+        <div class="text-size-xmedium text-colour-blue">We will help you collect the information you need quickly and
+          easily. Trust us to safeguard your data and provide the support you need, when you need it.</div>
+      </div>
+      <div class="section-map padding-huge">
+<style>
+  form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  background-color: #fff; /* Background color for the form */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  border-radius: 8px; /* Optional: rounded corners */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 23%;
+  margin-bottom: 10px;
+}
+
+label {
+  margin-bottom: 5px;
+  color: #263146;
+}
+
+input[type="text"],
+input[type="email"],
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 2px solid #263146;
+}
+
+input[type="submit"] {
+  padding: 10px 20px;
+  background-color: #263146;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #1b2534;
+}
+
+/* Ensure textarea spans correctly */
+textarea {
+  resize: vertical;
+}
+
+/* Optional styling for focused inputs */
+input[type="text"]:focus,
+input[type="email"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #1b2534;
+}
+
+</style>
+          <!-- Contact Form -->
+          <form method="post">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+              <label for="subject">Subject:</label>
+              <select id="subject" name="subject" required>
+                <option value="General Inquiry">General Inquiry</option>
+                <option value="Technical Support">Technical Support</option>
+                <option value="Feedback">Feedback</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message:</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+
+            <input type="submit" name="submit" value="Submit">
+          </form>
+        </div>
       </div>
     </div>
   </div>

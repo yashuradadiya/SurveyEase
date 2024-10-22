@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Online Survey Software and Questionnaire Tool - SmartSurvey</title>
+  <title>Blog - SurveyEase</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">

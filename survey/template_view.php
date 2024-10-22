@@ -56,42 +56,33 @@ $res_questions = mysqli_query($con, $sql_questions);
       margin-bottom: 8px;
       box-sizing: border-box;
     }
-    /* Styling for the button */
-.btn-template {
-    background-color: blue; /* Blue background */
-    color: white;
-    border: none; /* Remove border */
-    padding: 10px 20px; /* Padding around the button */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-/*    display: inline-block; /* Ensure it remains inline */*/
-}
 
-/* Hover effect for button */
-.btn-template:hover {
-    background-color: blue; /* Darker blue on hover */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Increase shadow on hover */
-    color: white;
-}
+    .btn-template {
+      background-color: #0144fff2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
 
-/* Styling for the link inside the button */
-.btn-link {
-  display: inline !important;
-  float: right;
-    color: white; /* White text */
-    text-decoration: none; /* Remove underline from the link */
-    font-weight: 600; /* Bold text */
-    font-size: 16px; /* Font size */
-    display: block; /* Ensure the link fills the button */
-}
+    .btn-template:hover {
+      background-color: #0144ff;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+      color: white;
+    }
 
-/* Change text color on hover */
-.btn-link:hover {
-    color: #; /* Yellow text on hover */
-}
-
+    .btn-link {
+      display: inline !important;
+      float: right;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      display: block;
+    }
   </style>
 </head>
 
@@ -99,21 +90,16 @@ $res_questions = mysqli_query($con, $sql_questions);
   <div class="container body">
     <div class="main_container">
       <?php include('sidebar.php') ?>
-
       <div class="right_col" role="main">
         <div class="">
           <div class="page-title">
             <div class="title_left" style="width: 100%;">
               <h3 style="display: inline;"><?php echo $template['Template_name']; ?></h3>
-             
-                  <a href="survey_create.php?template_id=<?php echo $template['ID']; ?>" class="btn-link"> <button class="btn-template">UseTemplate  </button></a>
-             
-
+              <a href="survey_create.php?template_id=<?php echo $template['ID']; ?>" class="btn-link"> <button
+                  class="btn-template">UseTemplate </button></a>
             </div>
           </div>
-
           <div class="clearfix"></div>
-
           <div class="row">
             <div class="col-md-12 col-sm-12">
               <div class="x_panel">
@@ -121,7 +107,6 @@ $res_questions = mysqli_query($con, $sql_questions);
                   <h2 style="text-wrap: wrap;"><?php echo $template['Template_description']; ?></h2>
                   <div class="clearfix"></div>
                 </div>
-
                 <div class="x_content">
                   <?php
                   $que_cnt = 0;
@@ -146,7 +131,6 @@ $res_questions = mysqli_query($con, $sql_questions);
                     <?php
                     $sql_option = "SELECT * FROM survey_options WHERE que_id=" . $row['que_id'];
                     $res_option = mysqli_query($con, $sql_option);
-
                     if (mysqli_num_rows($res_option) > 0) {
                       if ($row['answer_type'] == 'radio' || $row['answer_type'] == 'checkbox') {
                         while ($option = mysqli_fetch_assoc($res_option)) {
@@ -180,7 +164,6 @@ $res_questions = mysqli_query($con, $sql_questions);
       </div>
     </div>
   </div>
-
   <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
   <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>

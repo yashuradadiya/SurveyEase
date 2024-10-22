@@ -9,7 +9,7 @@ $res = mysqli_query($con, $sql);
 
 <head>
   <meta charset="utf-8">
-  <title>Suevry templates - SurveyEase</title>
+  <title>Suevry Templates - SurveyEase</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">

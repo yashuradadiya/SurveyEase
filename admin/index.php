@@ -63,15 +63,15 @@ if (isset($_SESSION['admin_id'])) {
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login | Admin</title>
+  <title>Admin | Login</title>
   <link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/panel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="../assets/panel/vendors/nprogress/nprogress.css" rel="stylesheet">
   <link href="../assets/panel/vendors/animate.css/animate.min.css" rel="stylesheet">
   <link href="../assets/panel/build/css/custom.min.css" rel="stylesheet">
 </head>
-
 <body class="login">
+<script src="../script_form.js"></script>
   <div>
     <div class="login_wrapper">
       <div class="animate form login_form">
@@ -81,7 +81,7 @@ if (isset($_SESSION['admin_id'])) {
             echo $msg;
           }
           ?>
-          <form method="post">
+          <form method="post" onsubmit="return validateForm('surveyForm')">
             <h1>Admin Login</h1>
             <div>
               <input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo @$emails; ?>"

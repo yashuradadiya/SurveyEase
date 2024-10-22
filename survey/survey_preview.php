@@ -6,22 +6,13 @@ if (!isset($_SESSION['survey_creator'])) {
   if (!isset($_GET["survey_id"])) {
     header("location:survey_template.php");
   } else {
-    // $survey_creator = $_SESSION['survey_creator'];
-    // $template_id = $_GET["survey_id"];
     $con = mysqli_connect("localhost", "root", "", database: "online_survey_system");
-    // $sql_survey = "SELECT * FROM survey WHERE ID = $template_id";
-    // $res_survey = mysqli_query($con, $sql_survey);
-    // $template = mysqli_fetch_array($res_survey);
-    // $sql_questions = "SELECT * FROM survey_questions WHERE template_id=$template_id and (created_by='admin' OR created_by= $survey_creator);";
-    // $res_questions = mysqli_query($con, $sql_questions);
     $survey_id = $_GET['survey_id'];
     $sql_survey = "SELECT * FROM survey WHERE ID = $survey_id";
     $res_survey = mysqli_query($con, $sql_survey);
     $row_survey = mysqli_fetch_assoc($res_survey);
     $survey_id = $row_survey['ID'];
-    // $questions_array = json_decode($row_survey['questions'], true);
     $questions_array = json_decode($row_survey['questions'], true);
-
   }
 }
 ?>
@@ -29,7 +20,7 @@ if (!isset($_SESSION['survey_creator'])) {
 
 <head>
   <meta charset="utf-8">
-  <title>Employees templates - SurveyEase</title>
+  <title><?php echo $row_survey['name']; ?></title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
 
   <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -80,7 +71,6 @@ if (!isset($_SESSION['survey_creator'])) {
           <?php echo $row_survey['description']; ?>
         </div>
         <div>
-          <!-- Button for Open Survey -->
           <a href="survey_collect.php?survey_id=<?php echo $survey_id; ?>" class="survey-btn">Open Survey</a>
         </div>
       </div>

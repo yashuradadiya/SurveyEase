@@ -5,16 +5,15 @@ $con = mysqli_connect("localhost", "root", "", "online_survey_system");
 if (isset($_POST['submit'])) {
   $name = $_POST['name'];
   $email = $_POST['email'];
-  $subject = $_POST['subject'];
   $message = $_POST['message'];
-  $sql_feedback = "INSERT INTO user_feedback (Name,Email,Subject,Message) VALUES ('$name','$email','$subject','$message')";
-  $result_feedback = mysqli_query($con, $sql_feedback);
+  $sql_contact = "INSERT INTO contact (Name,Email,Message) VALUES ('$name','$email','$message')";
+  $result_contact = mysqli_query($con, $sql_contact);
 }
 ?>
 
 <head>
   <meta charset="utf-8">
-  <title>Employees templates - SurveyEase</title>
+  <title>Contact - SurveyEase</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -149,15 +148,6 @@ include "header.php";
           <div class="form-group">
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-          </div>
-
-          <div class="form-group">
-            <label for="subject">Subject:</label>
-            <select id="subject" name="subject" required>
-              <option value="General Inquiry">General Inquiry</option>
-              <option value="Technical Support">Technical Support</option>
-              <option value="Feedback">Feedback</option>
-            </select>
           </div>
 
           <div class="form-group">

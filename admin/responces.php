@@ -29,8 +29,7 @@ if (!isset($_SESSION['admin_id'])) {
       $total_responses[$row['que_id']] = $total_responses[$row['que_id']] ?? 0;
       $total_responses[$row['que_id']]++;
     }
-  }else
-  {
+  } else {
     $msg = "No Responces Yet.";
   }
 }
@@ -44,7 +43,7 @@ if (!isset($_SESSION['admin_id'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Survey Responce - Admin</title>
+  <title>Admin | Survey Responce</title>
 
   <link href="css/jquery.dataTables.min.css">
   <link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -59,83 +58,73 @@ if (!isset($_SESSION['admin_id'])) {
   <link href="../assets/panel/build/css/custom.min.css" rel="stylesheet">
 </head>
 <style>
-
-/* Main Container Styling */
-
-/* Survey Title */
-.x_title h2 {
+  .x_title h2 {
     font-size: 24px;
     font-weight: bold;
     color: #333;
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
     margin-bottom: 20px;
-}
+  }
 
-/* Response Message */
-#msg {
+  #msg {
     color: #ff4f4f;
     font-weight: bold;
     margin-bottom: 20px;
-}
+  }
 
-/* Question Block */
-.card-box {
+  .card-box {
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     margin-bottom: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
+  }
 
-.card-box strong {
+  .card-box strong {
     font-size: 18px;
     color: black;
     margin-bottom: 10px;
     display: block;
-}
+  }
 
-/* Progress Bar Styling */
-.progress {
+  .progress {
     height: 20px;
     border-radius: 10px;
     background-color: #e9ecef;
     margin-bottom: 10px;
-}
+  }
 
-.progress-bar-striped {
+  .progress-bar-striped {
     background-color: #2a3f54;
     border-radius: 10px;
     text-align: center;
     color: white;
     font-size: 12px;
-}
+  }
 
-/* List Styling */
-ul {
+  ul {
     list-style: none;
     padding: 0;
-}
-li{
-  font-size: 14px;
-}
-.que li {
+  }
+
+  li {
+    font-size: 14px;
+  }
+
+  .que li {
     padding: 10px;
     background-color: #f1f1f1;
     border-radius: 5px;
     margin-bottom: 10px;
     font-size: 14px;
-}
+  }
 
-/* Table Responsive Styling */
-.table-responsive {
+  .table-responsive {
     margin-top: 20px;
-}
-
-
-
-
+  }
 </style>
+
 <body class="nav-md">
   <div class="container body">
     <div class="main_container">

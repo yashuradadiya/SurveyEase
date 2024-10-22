@@ -19,7 +19,7 @@ if (!isset($_SESSION['survey_creator'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Survey Creator - Admin</title>
+  <title>Surveys</title>
 
   <link href="../assets/panel/css/jquery.dataTables.min.css">
   <link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

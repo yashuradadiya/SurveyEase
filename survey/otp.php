@@ -108,7 +108,7 @@ if (isset($_SESSION['survey_creator'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OTP Verification</title>
+  <title>OTP Verification | Survey Creator</title>
   <link href="../assets/panel/build/otp/otp.css" rel="stylesheet">
 </head>
 <script>
@@ -118,7 +118,6 @@ if (isset($_SESSION['survey_creator'])) {
 
 
   <div class="otp-container">
-    <!-- OTP Message at the top inside the box -->
     <div class="otp-mess ">
       <p><?php echo @$msg; ?></p>
     </div>
@@ -150,7 +149,6 @@ if (isset($_SESSION['survey_creator'])) {
   </div>
 
   <script>
-    // Function to move to the next input when the current input is filled
     function moveToNext(current, nextFieldId) {
       if (current.value.length === current.maxLength) {
         if (nextFieldId) {
@@ -158,8 +156,6 @@ if (isset($_SESSION['survey_creator'])) {
         }
       }
     }
-
-    // Function to move to the previous input when the user presses backspace and the field is empty
     function moveToPrevious(event, current, prevFieldId) {
       if (event.key === "Backspace" && current.value === "") {
         if (prevFieldId) {

@@ -10,7 +10,7 @@ $category = 'Customer';
 
 <head>
   <meta charset="utf-8">
-  <title>Customers templates - SurveyEase</title>
+  <title>Customers Templates - SurveyEase</title>
   <meta content="width=device-width, initial-scale=1" name="viewport">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">

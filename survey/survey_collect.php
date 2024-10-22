@@ -10,17 +10,17 @@ if (!isset($_SESSION['survey_creator'])) {
     $res_survey = mysqli_query($con, $sql_survey);
     $row_survey = mysqli_fetch_assoc($res_survey);
   }
-  if(isset($_GET['surveyopen'])){
+  if (isset($_GET['surveyopen'])) {
     $open = $_GET['surveyopen'];
     $sql = "UPDATE survey SET status='open' WHERE ID = $open";
-    $res = mysqli_query($con,$sql);
-    header('location:survey_collect.php?survey_id='.$open);
+    $res = mysqli_query($con, $sql);
+    header('location:survey_collect.php?survey_id=' . $open);
   }
-  if(isset($_GET['surveyclose'])){
+  if (isset($_GET['surveyclose'])) {
     $close = $_GET['surveyclose'];
     $sql = "UPDATE survey SET status='close' WHERE ID = $close";
-    $res = mysqli_query($con,$sql);
-    header('location:survey_collect.php?survey_id='.$close);
+    $res = mysqli_query($con, $sql);
+    header('location:survey_collect.php?survey_id=' . $close);
   }
 }
 ?>
@@ -37,40 +37,46 @@ if (!isset($_SESSION['survey_creator'])) {
   <link href="../assets/panel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="../assets/panel/vendors/nprogress/nprogress.css" rel="stylesheet">
   <link href="../assets/panel/build/css/custom.min.css" rel="stylesheet">
-
   <style>
-    /* Custom responsive styles */
     .page-title {
       margin-bottom: 30px;
     }
+
     .title_left h3 {
       font-size: 2rem;
       margin-bottom: 15px;
     }
+
     .survey-buttons {
       margin-top: 20px;
     }
+
     .survey-buttons button {
       margin-right: 10px;
       padding: 10px 15px;
       font-size: 1rem;
     }
+
     .survey-link p {
       font-size: 1rem;
       word-break: break-all;
     }
+
     .survey-status {
       font-size: 1.2rem;
       margin-bottom: 10px;
     }
+
     @media (max-width: 768px) {
       .title_left h3 {
         font-size: 1.5rem;
       }
+
       .survey-buttons button {
         font-size: 0.9rem;
       }
     }
+
     @media (max-width: 576px) {
       .survey-buttons button {
         font-size: 0.8rem;
@@ -90,54 +96,39 @@ if (!isset($_SESSION['survey_creator'])) {
           </div>
         </div>
         <div class="clearfix"></div>
-
-        <!-- Survey Link -->
         <div class="survey-link">
           <strong>Link:</strong>
-          <p id="textToCopy" style="display:inline;border: #ccc 2px solid;padding: 7px 20px;">http://localhost/SurveyEase/survey.php?survey=<?php echo $row_survey['link']; ?></p>
+          <p id="textToCopy" style="display:inline;border: #ccc 2px solid;padding: 7px 20px;">
+            http://localhost/SurveyEase/survey.php?survey=<?php echo $row_survey['link']; ?></p>
           <button onclick="copyText()" class="btn btn-primary">Copy Link</button>
         </div>
-
-        <!-- Survey Status and Controls -->
         <div class="survey-status">
           <p>Status: <?php echo ucfirst($row_survey['status']); ?></p>
         </div>
-
-        <!-- Survey Control Buttons -->
         <div class="survey-buttons">
-          <a href="survey_collect.php?surveyopen=<?php echo $survey_id; ?>"><button class="btn btn-success">Open Survey</button></a>
-          <a href="survey_collect.php?surveyclose=<?php echo $survey_id; ?>"><button class="btn btn-danger">Close Survey</button></a>
-            <a href="responces.php?survey_id=<?php echo $survey_id; ?>"><button class="btn btn-primary">View Analysis</button></a>
-        </div>
-
-        <!-- View Analysis Button -->
-        
-        
+          <a href="survey_collect.php?surveyopen=<?php echo $survey_id; ?>"><button class="btn btn-success">Open
+              Survey</button></a>
+          <a href="survey_collect.php?surveyclose=<?php echo $survey_id; ?>"><button class="btn btn-danger">Close
+              Survey</button></a>
+          <a href="responces.php?survey_id=<?php echo $survey_id; ?>"><button class="btn btn-primary">View
+              Analysis</button></a>
         </div>
       </div>
     </div>
   </div>
+  </div>
   <script>
-        function copyText() {
-            // Get the text from the paragraph
-            var text = document.getElementById("textToCopy").innerText;
-
-            // Create a temporary textarea element to copy the text
-            var tempTextArea = document.createElement("textarea");
-            tempTextArea.value = text;
-            document.body.appendChild(tempTextArea);
-
-            // Select the text and copy it to the clipboard
-            tempTextArea.select();
-            document.execCommand("copy");
-
-            // Remove the temporary textarea element
-            document.body.removeChild(tempTextArea);
-
-            // Alert the copied text (optional)
-            alert("Copied the text: " + text);
-        }
-    </script>
+    function copyText() {
+      var text = document.getElementById("textToCopy").innerText;
+      var tempTextArea = document.createElement("textarea");
+      tempTextArea.value = text;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempTextArea);
+      alert("Copied the text: " + text);
+    }
+  </script>
   <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
   <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>

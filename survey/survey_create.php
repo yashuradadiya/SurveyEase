@@ -181,7 +181,7 @@ if (!isset($_SESSION['survey_creator'])) {
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Survey Survey Creation</title>
+  <title>Survey Creation</title>
   <link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="../assets/panel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <link href="../assets/panel/vendors/nprogress/nprogress.css" rel="stylesheet">
@@ -428,11 +428,8 @@ if (!isset($_SESSION['survey_creator'])) {
         input.id = `question${questionNumber}`;
         input.setAttribute('placeholder', `Enter your question`);
         input.name = `question${questionNumber}`;
-
         const select = item.querySelector('.answer-type');
         select.name = `anstype${questionNumber}`;
-
-        // Update the names of any existing options
         const options = item.querySelectorAll('.option-item input');
         options.forEach((option, optionIndex) => {
           option.name = `question${questionNumber}_option${optionIndex + 1}`;
@@ -479,7 +476,7 @@ if (!isset($_SESSION['survey_creator'])) {
       switch (select.value) {
         case 'select':
         case 'radio':
-        case 'checkbox': // Added checkbox case
+        case 'checkbox': 
           optionsContainer.innerHTML = `
             <label class="form-label">Options</label>
             <div class="option-item d-flex align-items-center mb-2">

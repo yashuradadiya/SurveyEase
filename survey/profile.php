@@ -15,35 +15,23 @@ if (!isset($_SESSION['survey_creator'])) {
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <!-- Meta, title, CSS, favicons, etc. -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Profile - Admin</title>
-
-  <!-- Bootstrap -->
+  <title>Profile</title>
   <link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome -->
   <link href="../assets/panel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <!-- NProgress -->
   <link href="../assets/panel/vendors/nprogress/nprogress.css" rel="stylesheet">
-  <!-- bootstrap-daterangepicker -->
   <link href="../assets/panel/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
-  <!-- Custom Theme Style -->
   <link href="../assets/panel/build/css/custom.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-md">
   <div class="container body">
     <div class="main_container">
-
       <?php
-      include ("sidebar.php");
+      include("sidebar.php");
       ?>
-
-      <!-- page content -->
       <div class="right_col" role="main">
         <div class="">
           <div class="clearfix"></div>
@@ -58,13 +46,12 @@ if (!isset($_SESSION['survey_creator'])) {
                   <div class="col-md-3 col-sm-3  profile_left">
                     <div class="profile_img">
                       <div id="crop-avatar">
-                        <!-- Current avatar -->
-                        <img class="img-responsive avatar-view" src="../assets/panel/images/admin_image/<?php echo $row_survey_creator['Image']; ?>" alt="Avatar"
-                          title="Change the avatar" style="width: 220px; height: 220px; object-fit: cover;">
+                        <img class="img-responsive avatar-view"
+                          src="../assets/panel/images/admin_image/<?php echo $row_survey_creator['Image']; ?>"
+                          alt="Avatar" title="Change the avatar"
+                          style="width: 220px; height: 220px; object-fit: cover;">
                       </div>
                     </div>
-
-
                   </div>
                   <div class="col-md-9 col-sm-9 ">
                     <h3><?php echo $row_survey_creator['Name']; ?></h3>
@@ -74,7 +61,6 @@ if (!isset($_SESSION['survey_creator'])) {
                       <li><i class="fa fa-phone user-profile-icon"></i> <?php echo $row_survey_creator['Contact']; ?>
                       </li>
                     </ul>
-
                     <a class="btn btn-success" href="profile-setting.php"><i class="fa fa-edit m-right-xs"></i>Edit
                       Profile</a>
                     <br />
@@ -92,27 +78,16 @@ if (!isset($_SESSION['survey_creator'])) {
       </footer>
     </div>
   </div>
-
-  <!-- jQuery -->
   <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
-  <!-- Bootstrap -->
   <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- FastClick -->
   <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>
-  <!-- NProgress -->
   <script src="../assets/panel/vendors/nprogress/nprogress.js"></script>
-  <!-- morris.js -->
   <script src="../assets/panel/vendors/raphael/raphael.min.js"></script>
   <script src="../assets/panel/vendors/morris.js/morris.min.js"></script>
-  <!-- bootstrap-progressbar -->
   <script src="../assets/panel/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-  <!-- bootstrap-daterangepicker -->
   <script src="../assets/panel/vendors/moment/min/moment.min.js"></script>
   <script src="../assets/panel/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
-  <!-- Custom Theme Scripts -->
   <script src="../assets/panel/build/js/custom.min.js"></script>
-
 </body>
 
 </html>
