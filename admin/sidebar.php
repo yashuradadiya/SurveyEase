@@ -32,6 +32,12 @@ if (!isset($_SESSION['admin_id'])) {
         <ul class="nav side-menu">
           <li><a href="dashboard.php"><i class="fa fa-home"></i> Home </a></li>
           <li><a href="survey_creator.php"><i class="fa fa-user"></i> Survey Creator </a></li>
+          <li><a><i class="fa  fa-bar-chart"></i> Category <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+              <li><a href="category.php">View Category</a></li>
+              <li><a href="category_creation.php">Add Category</a></li>
+            </ul>
+          </li>
           <li><a><i class="fa  fa-bar-chart"></i> Tempalates <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
               <li><a href="survey_template.php">All Template</a></li>
