@@ -166,7 +166,7 @@ if (!isset($_SESSION['survey_creator'])) {
     $question_string = "[" . implode(',', $questions) . "]";
     $sql_up = "UPDATE survey SET questions='$question_string' WHERE ID=$survey_id";
     $res_up = mysqli_query($con, $sql_up);
-    
+
     header('location:survey_preview.php?survey_id=' . $survey_id);
 
   }
@@ -331,73 +331,72 @@ if (!isset($_SESSION['survey_creator'])) {
                               <?php } ?>
                               <div>
                                 <input type="submit" name="save" value="Save" class="btn-save">
-
-                              </div>
-                              <?php
-                      } else { ?>
-                              <div id="step-1">
-                                <div class="form-group row">
-                                  <label class="col-form-label col-md-3 col-sm-3 label-align">Survey
-                                    Name
-                                  </label>
-                                  <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" required="required" class="form-control" name="survey_name">
-                                  </div>
-                                </div>
-                                <div class="form-group row">
-                                  <label class="col-form-label col-md-3 col-sm-3 label-align"> Survey
-                                    Description
-                                  </label>
-                                  <div class="col-md-6 col-sm-6 ">
-                                    <textarea class="form-control " name="survey_default_descripton"></textarea>
-                                  </div>
-                                </div>
-                              </div>
-                              <div id="step-2">
-                                <h2 class="StepTitle">Add Questions</h2>
-                                <div class="col-md-9 p-3">
-                                  <div class="d-flex justify-content-between align-items-center">
-                                    <h4>Create Your Survey</h4>
-
-                                  </div>
-                                  <hr>
-                                  <div id="questions-container">
-                                    <div class="question-wrapper">
-                                      <div class="mb-3 question-item">
-                                        <label for="question1" class="form-label">Question1</label>
-                                        <input type="text" class="form-control" id="question1"
-                                          placeholder="Enter your question" name="question1">
-                                        <label class="form-label mt-2">Answer Type</label>
-                                        <select class="form-select answer-type" name="anstype1">
-                                          <option value="text">Text</option>
-                                          <option value="textarea">Text Area</option>
-                                          <option value="email">Email</option>
-                                          <option value="tel">Telephone</option>
-                                          <option value="number">Number</option>
-                                          <option value="rating">Rating</option>
-                                          <option value="select">Select</option>
-                                          <option value="checkbox">Checkbox</option>
-                                          <option value="radio">Radio</option>
-                                        </select>
-                                        <div class="options-container mt-2"></div>
-                                      </div>
-                                      <button type="button" class="btn btn-secondary mt-2 add-between">Add
-                                        Another
-                                        Question</button>
-                                      <button type="button" class="btn btn-danger mt-2 remove-question">Remove
-                                        This
-                                        Question</button>
-                                    </div>
-                                    <div>
-                                      <input type="submit" name="submit" value="submit" class="btn-save">
-
-                                    </div>
-                                  </div>
-
-                                <?php } ?>
                               </div>
                             </div>
                           </div>
+                        </div>
+                        <?php
+                      } else { ?>
+                        <div id="step-1">
+                          <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align">Survey
+                              Name
+                            </label>
+                            <div class="col-md-6 col-sm-6 ">
+                              <input type="text" required="required" class="form-control" name="survey_name">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"> Survey
+                              Description
+                            </label>
+                            <div class="col-md-6 col-sm-6 ">
+                              <textarea class="form-control " name="survey_default_descripton"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="step-2">
+                          <h2 class="StepTitle">Add Questions</h2>
+                          <div class="col-md-9 p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                              <h4>Create Your Survey</h4>
+                            </div>
+                            <hr>
+                            <div id="questions-container">
+                              <div class="question-wrapper">
+                                <div class="mb-3 question-item">
+                                  <label for="question1" class="form-label">Question1</label>
+                                  <input type="text" class="form-control" id="question1" placeholder="Enter your question"
+                                    name="question1">
+                                  <label class="form-label mt-2">Answer Type</label>
+                                  <select class="form-select answer-type" name="anstype1">
+                                    <option value="text">Text</option>
+                                    <option value="textarea">Text Area</option>
+                                    <option value="email">Email</option>
+                                    <option value="tel">Telephone</option>
+                                    <option value="number">Number</option>
+                                    <option value="rating">Rating</option>
+                                    <option value="select">Select</option>
+                                    <option value="checkbox">Checkbox</option>
+                                    <option value="radio">Radio</option>
+                                  </select>
+                                  <div class="options-container mt-2"></div>
+                                </div>
+                                <button type="button" class="btn btn-secondary mt-2 add-between">Add
+                                  Another
+                                  Question</button>
+                                <button type="button" class="btn btn-danger mt-2 remove-question">Remove
+                                  This
+                                  Question</button>
+                              </div>
+                              <div>
+                                <input type="submit" name="submit" value="submit" class="btn-save">
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      <?php } ?>
                     </form>
                   </div>
                 </div>
@@ -408,41 +407,40 @@ if (!isset($_SESSION['survey_creator'])) {
       </div>
     </div>
   </div>
+    <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="../assets/panel/vendors/nprogress/nprogress.js"></script>
+    <script src="../assets/panel/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+    <script src="../assets/panel/build/js/custom.min.js"></script>
+    <script>
+      let questionCount = 1;
 
-  <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
-  <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>
-  <script src="../assets/panel/vendors/nprogress/nprogress.js"></script>
-  <script src="../assets/panel/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
-  <script src="../assets/panel/build/js/custom.min.js"></script>
-  <script>
-    let questionCount = 1;
-
-    function updateQuestionNumbers() {
-      const questionItems = document.querySelectorAll('.question-item');
-      questionItems.forEach((item, index) => {
-        const questionNumber = index + 1;
-        const label = item.querySelector('.form-label');
-        label.innerText = `Question ${questionNumber}`;
-        const input = item.querySelector('input[type="text"]');
-        input.id = `question${questionNumber}`;
-        input.setAttribute('placeholder', `Enter your question`);
-        input.name = `question${questionNumber}`;
-        const select = item.querySelector('.answer-type');
-        select.name = `anstype${questionNumber}`;
-        const options = item.querySelectorAll('.option-item input');
-        options.forEach((option, optionIndex) => {
-          option.name = `question${questionNumber}_option${optionIndex + 1}`;
-          option.placeholder = `Option ${optionIndex + 1}`;
+      function updateQuestionNumbers() {
+        const questionItems = document.querySelectorAll('.question-item');
+        questionItems.forEach((item, index) => {
+          const questionNumber = index + 1;
+          const label = item.querySelector('.form-label');
+          label.innerText = `Question ${questionNumber}`;
+          const input = item.querySelector('input[type="text"]');
+          input.id = `question${questionNumber}`;
+          input.setAttribute('placeholder', `Enter your question`);
+          input.name = `question${questionNumber}`;
+          const select = item.querySelector('.answer-type');
+          select.name = `anstype${questionNumber}`;
+          const options = item.querySelectorAll('.option-item input');
+          options.forEach((option, optionIndex) => {
+            option.name = `question${questionNumber}_option${optionIndex + 1}`;
+            option.placeholder = `Option ${optionIndex + 1}`;
+          });
         });
-      });
-    }
+      }
 
-    function createQuestionElement(questionNumber) {
-      const newQuestion = document.createElement('div');
-      newQuestion.classList.add('question-wrapper');
+      function createQuestionElement(questionNumber) {
+        const newQuestion = document.createElement('div');
+        newQuestion.classList.add('question-wrapper');
 
-      newQuestion.innerHTML = `
+        newQuestion.innerHTML = `
       <div class="mb-3 question-item">
          <label for="question${questionNumber}" class="form-label">Question ${questionNumber}</label>
          <input type="text" class="form-control" id="question${questionNumber}" placeholder="Enter your question" name="question${questionNumber}">
@@ -464,20 +462,20 @@ if (!isset($_SESSION['survey_creator'])) {
       <button type="button" class="btn btn-danger mt-2 remove-question">Remove This Question</button>
    `;
 
-      return newQuestion;
-    }
+        return newQuestion;
+      }
 
-    function handleAnswerTypeChange(event) {
-      const select = event.target;
-      const questionWrapper = select.closest('.question-item');
-      const optionsContainer = questionWrapper.querySelector('.options-container');
-      const questionNumber = questionWrapper.querySelector('input[type="text"]').id.replace('question', '');
+      function handleAnswerTypeChange(event) {
+        const select = event.target;
+        const questionWrapper = select.closest('.question-item');
+        const optionsContainer = questionWrapper.querySelector('.options-container');
+        const questionNumber = questionWrapper.querySelector('input[type="text"]').id.replace('question', '');
 
-      switch (select.value) {
-        case 'select':
-        case 'radio':
-        case 'checkbox': 
-          optionsContainer.innerHTML = `
+        switch (select.value) {
+          case 'select':
+          case 'radio':
+          case 'checkbox':
+            optionsContainer.innerHTML = `
             <label class="form-label">Options</label>
             <div class="option-item d-flex align-items-center mb-2">
                <input type="text" class="form-control" placeholder="Option 1" name="question${questionNumber}_option1">
@@ -485,59 +483,59 @@ if (!isset($_SESSION['survey_creator'])) {
                <button type="button" class="btn btn-danger btn-sm ms-2 remove-option">-</button>
             </div>
          `;
-          break;
-        case 'rating':
-          optionsContainer.innerHTML = `
+            break;
+          case 'rating':
+            optionsContainer.innerHTML = `
             <label class="form-label">Rating Scale</label>
             <input type="number" class="form-control" placeholder="Enter the number of stars" min="1" max="10" name="question${questionNumber}_rating">
          `;
-          break;
-        default:
-          optionsContainer.innerHTML = '';
-          break;
+            break;
+          default:
+            optionsContainer.innerHTML = '';
+            break;
+        }
       }
-    }
 
-    document.getElementById('questions-container').addEventListener('click', function (event) {
-      if (event.target.classList.contains('add-between')) {
-        const currentWrapper = event.target.closest('.question-wrapper');
-        questionCount++;
-        const newQuestion = createQuestionElement(questionCount);
-        currentWrapper.insertAdjacentElement('afterend', newQuestion);
-        updateQuestionNumbers();
-      } else if (event.target.classList.contains('remove-question')) {
-        const currentWrapper = event.target.closest('.question-wrapper');
-        currentWrapper.remove();
-        updateQuestionNumbers();
-      } else if (event.target.classList.contains('add-option')) {
-        const optionItem = event.target.closest('.option-item');
-        const optionsContainer = event.target.closest('.options-container');
-        const optionCount = optionsContainer.querySelectorAll('.option-item').length + 1;
-        const questionNumber = optionsContainer.closest('.question-item').querySelector('input[type="text"]').id.replace('question', '');
+      document.getElementById('questions-container').addEventListener('click', function (event) {
+        if (event.target.classList.contains('add-between')) {
+          const currentWrapper = event.target.closest('.question-wrapper');
+          questionCount++;
+          const newQuestion = createQuestionElement(questionCount);
+          currentWrapper.insertAdjacentElement('afterend', newQuestion);
+          updateQuestionNumbers();
+        } else if (event.target.classList.contains('remove-question')) {
+          const currentWrapper = event.target.closest('.question-wrapper');
+          currentWrapper.remove();
+          updateQuestionNumbers();
+        } else if (event.target.classList.contains('add-option')) {
+          const optionItem = event.target.closest('.option-item');
+          const optionsContainer = event.target.closest('.options-container');
+          const optionCount = optionsContainer.querySelectorAll('.option-item').length + 1;
+          const questionNumber = optionsContainer.closest('.question-item').querySelector('input[type="text"]').id.replace('question', '');
 
-        const newOption = document.createElement('div');
-        newOption.classList.add('option-item', 'd-flex', 'align-items-center', 'mb-2');
-        newOption.innerHTML = `
+          const newOption = document.createElement('div');
+          newOption.classList.add('option-item', 'd-flex', 'align-items-center', 'mb-2');
+          newOption.innerHTML = `
          <input type="text" class="form-control" placeholder="Option ${optionCount}" name="question${questionNumber}_option${optionCount}">
          <button type="button" class="btn btn-success btn-sm ms-2 add-option">+</button>
          <button type="button" class="btn btn-danger btn-sm ms-2 remove-option">-</button>
       `;
-        optionItem.insertAdjacentElement('afterend', newOption);
-        updateQuestionNumbers();
-      } else if (event.target.classList.contains('remove-option')) {
-        const optionItem = event.target.closest('.option-item');
-        optionItem.remove();
-        updateQuestionNumbers();
-      }
-    });
+          optionItem.insertAdjacentElement('afterend', newOption);
+          updateQuestionNumbers();
+        } else if (event.target.classList.contains('remove-option')) {
+          const optionItem = event.target.closest('.option-item');
+          optionItem.remove();
+          updateQuestionNumbers();
+        }
+      });
 
-    document.getElementById('questions-container').addEventListener('change', function (event) {
-      if (event.target.classList.contains('answer-type')) {
-        handleAnswerTypeChange(event);
-      }
-    });
+      document.getElementById('questions-container').addEventListener('change', function (event) {
+        if (event.target.classList.contains('answer-type')) {
+          handleAnswerTypeChange(event);
+        }
+      });
 
-  </script>
+    </script>
 
 </body>
 

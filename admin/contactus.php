@@ -1,20 +1,11 @@
 <?php
 session_start();
-if (!isset($_SESSION['survey_creator'])) {
+if (!isset($_SESSION['admin_id'])) {
   header("location:index.php");
-} else {
+} {
   $con = mysqli_connect("localhost", "root", "", "online_survey_system");
-  if(@$_GET['del_survey_id']){
-    $del_id = $_GET['del_survey_id'];
-    $sql_del = "DELETE FROM survey WHERE ID = $del_id";
-    $res_del = mysqli_query($con,$sql_del);
-    header("location:survey.php");
-  }else
-  {
-  $survey_creator = $_SESSION['survey_creator'];
-  $sur_sql = "SELECT * FROM survey WHERE creator_id=$survey_creator ORDER BY Create_at DESC";
-  $sur_res = mysqli_query($con, $sur_sql);
-  }
+  $contact_sql = "SELECT * FROM contact";
+  $contact_res = mysqli_query($con, $contact_sql);
 }
 
 ?>
@@ -27,7 +18,7 @@ if (!isset($_SESSION['survey_creator'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Surveys</title>
+  <title>Admin | Feedbackes & Queries</title>
 
   <link href="../assets/panel/css/jquery.dataTables.min.css">
   <link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -55,7 +46,7 @@ if (!isset($_SESSION['survey_creator'])) {
             <div class="col-md-12 col-sm-12 ">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>Survey Creator</h2>
+                  <h2>User Feedback & Queries</h2>
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -66,37 +57,21 @@ if (!isset($_SESSION['survey_creator'])) {
                           <thead>
                             <tr>
                               <th>ID</th>
-                              <th>Status</th>
-                              <th>Survey Name</th>
-                              <th>Survey Created At</th>
-                              <th>Collect</th>
-                              <th>Responces</th>
-                              <th>Delete</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Message</th>
                             </tr>
                           </thead>
                           <tbody>
                             <?php
                             $cnt = 1;
-                            while ($row = mysqli_fetch_assoc($sur_res)) {
+                            while ($row = mysqli_fetch_assoc($contact_res)) {
                               ?>
                               <tr>
-                                <td><?php echo $cnt; ?>
-                                <td><span class="badge badge-<?php if ($row['status'] == 'open') {
-                                  echo "success";
-                                } else {
-                                  echo "danger";
-                                } ?>"
-                                    style="font-size: 13px !important; width: 100% !important; padding: 7px; align: left!important"><?php echo $row['status']; ?>
-                                    </a></span></td>
-                                </td>
-                                <td><?php echo $row['name']; ?></td>
-                                <td><?php echo $row['Create_at']; ?></td>
-                                <td align="center"><a href="survey_collect.php?survey_id=<?php echo $row['ID']; ?>" style="font-size: 15pt;"><i
-                                      class="fa fa-paper-plane-o"></i></a></td>
-                                <td align="center"><a href="responces.php?survey_id=<?php echo $row['ID']; ?>" style="font-size: 15pt;"><i
-                                      class="fa fa-pie-chart"></i></a></td>
-                                <td align="center"><a href="survey.php?del_survey_id=<?php echo $row['ID']; ?>" style="font-size: 15pt;"><i
-                                      class="fa fa-trash"></i></a></td>
+                                <td><?php echo $cnt; ?></td>
+                                <td><?php echo $row['Name']; ?></td>
+                                <td><?php echo $row['Email']; ?></td>
+                                <td><?php echo $row['Message']; ?></td>
                               </tr>
                               <?php $cnt++;
                             } ?>

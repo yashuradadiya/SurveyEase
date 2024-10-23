@@ -6,35 +6,151 @@ if (!isset($_SESSION['admin_id'])) {
 	$con = mysqli_connect("localhost", "root", "", "online_survey_system");
 	$sql_category = "SELECT * FROM survey_category";
 	$res_category = mysqli_query($con, $sql_category);
-	if (isset($_POST['save'])) {
-		@$name = @$_POST['survey_name'];
-		@$des = @$_POST['survey_descripton'];
-		@$des_def = @$_POST['survey_default_descripton'];
-		@$category_id = @$_POST['category'];
-		@$template_image = @$_FILES['image']['name'];
-		move_uploaded_file($_FILES['image']['tmp_name'], '../Images_Survey/'.$template_image);
-		$sql_survey = "INSERT INTO survey_templates (Template_name,Template_description,Template_category,Survey_description,Template_image) VALUES('$name','$des',$category_id,'$des_def','$template_image');";
-		$res_survey = mysqli_query($con, $sql_survey);
-		$survey_id = mysqli_insert_id($con);
-		$arr = $_POST;
-		$questions = array();
-		foreach ($arr as $key => $value) {
-			if (preg_match('/^question(\d+)$/', $key, $matches)) {
-				$question_number = $matches[1];
-				$question_text = $value;
-				$answer_type = $arr["anstype$question_number"];
-				$sql_question = "INSERT INTO survey_questions (template_id, question, answer_type,created_by) VALUES ($survey_id, '$question_text', '$answer_type', 'admin');";
-				$res_question = mysqli_query($con, $sql_question);
-				$question_id = mysqli_insert_id($con);
-				foreach ($arr as $opt_key => $opt_value) {
-					if (preg_match("/^question{$question_number}_option(\d+)$/", $opt_key)) {
-						$sql_option = "INSERT INTO survey_options (que_id, options) VALUES ($question_id, '$opt_value')";
-						$res_option = mysqli_query($con, $sql_option);
+	if (@$_GET['edit_template_id']) {
+		@$edit_template_id = $_GET['edit_template_id'];
+		$sql_template = "SELECT * FROM survey_templates WHERE ID=$edit_template_id";
+		$res_template = mysqli_query($con, $sql_template);
+		$row_template = mysqli_fetch_assoc($res_template);
+		$sql_questions = "SELECT * FROM survey_questions WHERE template_id=$edit_template_id AND created_by='admin'";
+		$res_questions = mysqli_query($con, $sql_questions);
+		if (isset($_POST['save'])) {
+			$survey_name = @$_POST['survey_name'];
+			$template_des = @$_POST['survey_descripton'];
+			$template_category = @$_POST['category'];
+			$survey_description = @$_POST['survey_default_descripton'];
+			$Template_image=$_FILES['image']['name'];
+			if (isset($_GET['edit_template_id'])) {
+				if (@$_FILES['image']['name'] == "") {
+					$Template_image = $row_template['Template_image'];
+				} else {
+					unlink('../assets/panel/Image_Survey' . $row['Template_image']);
+					move_uploaded_file($_FILES['image']['tmp_name'], '../assets/panel/Image_Survey/' . $image);
+				}
+				$sql = "UPDATE survey_templates SET Template_name='$survey_name',Template_description='$template_des',Template_category='$template_category',Survey_description='$survey_description',Template_image='$Template_image' where ID = " . $edit_template_id;
+				$res = mysqli_query($con,$sql);
+			}
+			$arr = $_POST;
+			$existing_questions = [];
+			$existing_options = [];
+			while ($row_questions = mysqli_fetch_assoc($res_questions)) {
+				$existing_questions[$row_questions['que_id']] = [
+					'question' => $row_questions['question'],
+					'answer_type' => $row_questions['answer_type']
+				];
+				$sql_options = "SELECT * FROM survey_options WHERE que_id={$row_questions['que_id']} AND added_by = 'admin'";
+				$res_options = mysqli_query($con, $sql_options);
+				while ($row_options = mysqli_fetch_assoc($res_options)) {
+					$existing_options[$row_options['op_id']] = [
+						'option' => $row_options['options'],
+						'question_number' => $row_options['que_id']
+					];
+				}
+			}
+			$submitted_questions = [];
+			$submitted_options = [];
+			foreach ($arr as $key => $value) {
+				if (preg_match('/^question(\d+)$/', $key, $matches)) {
+					$question_number = $matches[1];
+					$question_text = $value;
+					$answer_type = $arr["anstype$question_number"];
+					$submitted_questions[$question_number] = [
+						'question' => $question_text,
+						'answer_type' => $answer_type
+					];
+					$sql_ques = "SELECT * FROM survey_questions WHERE template_id=$edit_template_id AND question='$question_text'";
+					$res_ques = mysqli_query($con, $sql_ques);
+					while ($row_ques = mysqli_fetch_assoc($res_ques)) {
+						$sql_options = "SELECT * FROM survey_options WHERE que_id={$row_ques['que_id']} AND added_by = 'admin'";
+						foreach ($arr as $opt_key => $opt_value) {
+							$sel_que = $row_ques['que_id'];
+							if (preg_match("/^question{$question_number}_option(\d+)$/", $opt_key)) {
+								$submitted_options[] = [
+									'option' => $opt_value,
+									'question_number' => $sel_que
+								];
+							}
+						}
 					}
 				}
 			}
+			foreach ($submitted_questions as $number => $question) {
+				if (!in_array($question, $existing_questions)) {
+					$sql_insert = "INSERT INTO survey_questions (template_id, question, answer_type,created_by) VALUES ($edit_template_id, '{$question['question']}', '{$question['answer_type']}','admin')";
+					$res_insert = mysqli_query($con, $sql_insert);
+					$question_id = mysqli_insert_id($con);
+					$sub_que_id = $number;
+					foreach ($arr as $opt_key => $opt_value) {
+						if (preg_match("/^question{$sub_que_id}_option(\d+)$/", $opt_key)) {
+							$sql_option = "INSERT INTO survey_options (que_id, options,added_by) VALUES ($question_id, '$opt_value','admin')";
+							$res_option = mysqli_query($con, $sql_option);
+						}
+					}
+				}
+				$que_sql = "SELECT * FROM survey_questions WHERE question='" . $question['question'] . "' AND template_id = $edit_template_id";
+				$que_res = mysqli_query($con, $que_sql);
+				$que_row = mysqli_fetch_assoc($que_res);
+				$question_array_for_insert[] = $que_row['que_id'];
+			}
+			foreach ($existing_questions as $number => $question){
+				if(!in_array($question,$submitted_questions))
+				{
+					$sql_del_que = "DELETE FROM survey_questions WHERE question='".$question['question']."  AND template_id=$edit_template_id AND created_by = 'admin'";
+					$res_del_que = mysqli_query($con,$sql_del_que);
+				}
+			}
+
+			foreach ($submitted_options as $number => $option) {
+				if (!in_array($option, $existing_options)) {
+					$sql_option = "INSERT INTO survey_options (que_id, options,added_by) VALUES ({$option['question_number']}, '{$option['option']}','admin')";
+					$res_option = mysqli_query($con, $sql_option);
+				}
+				$sql_optiones = "SELECT * FROM survey_options WHERE que_id =  {$option['question_number']} AND options = '{$option['option']}'";
+				$res_optiones = mysqli_query($con, $sql_optiones);
+				$row_optiones = mysqli_fetch_assoc($res_optiones);
+				$submitted_options[$number]['option_id'] = $row_optiones['op_id'];
+			}
+			foreach ($existing_options as $number => $option){
+				if(!in_array($option,$submitted_options))
+				{
+					$sql_del_op = "DELETE FROM survey_options WHERE options='".$option['option']."  AND template_id=$".$option['question_number']." AND created_by = 'admin'";
+					$res_del_op = mysqli_query($con,$sql_del_op);
+				}
+			}
+			header('location:survey_questions.php?template_id=' . $edit_template_id);
+
 		}
-		header("location:survey_template.php");
+
+	} else {
+		if (isset($_POST['submit'])) {
+			@$name = @$_POST['survey_name'];
+			@$des = @$_POST['survey_descripton'];
+			@$des_def = @$_POST['survey_default_descripton'];
+			@$category_id = @$_POST['category'];
+			@$template_image = @$_FILES['image']['name'];
+			move_uploaded_file($_FILES['image']['tmp_name'], '../Images_Survey/' . $template_image);
+			$sql_survey = "INSERT INTO survey_templates (Template_name,Template_description,Template_category,Survey_description,Template_image) VALUES('$name','$des',$category_id,'$des_def','$template_image');";
+			$res_survey = mysqli_query($con, $sql_survey);
+			$survey_id = mysqli_insert_id($con);
+			$arr = $_POST;
+			$questions = array();
+			foreach ($arr as $key => $value) {
+				if (preg_match('/^question(\d+)$/', $key, $matches)) {
+					$question_number = $matches[1];
+					$question_text = $value;
+					$answer_type = $arr["anstype$question_number"];
+					$sql_question = "INSERT INTO survey_questions (template_id, question, answer_type,created_by) VALUES ($survey_id, '$question_text', '$answer_type', 'admin');";
+					$res_question = mysqli_query($con, $sql_question);
+					$question_id = mysqli_insert_id($con);
+					foreach ($arr as $opt_key => $opt_value) {
+						if (preg_match("/^question{$question_number}_option(\d+)$/", $opt_key)) {
+							$sql_option = "INSERT INTO survey_options (que_id, options) VALUES ($question_id, '$opt_value')";
+							$res_option = mysqli_query($con, $sql_option);
+						}
+					}
+				}
+			}
+			header("location:survey_template.php");
+		}
 	}
 }
 ?>
@@ -46,13 +162,13 @@ if (!isset($_SESSION['admin_id'])) {
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Admin | Survey Creation</title>
+	<title>Admin | Template Creation</title>
 	<link href="../assets/panel/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../assets/panel/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link href="../assets/panel/vendors/nprogress/nprogress.css" rel="stylesheet">
 	<link href="../assets/panel/build/css/custom.min.css" rel="stylesheet">
-  <link href="../assets/panel/build/survey_creation/survey_creation.css" rel="stylesheet">
-	
+	<link href="../assets/panel/build/survey_creation/survey_creation.css" rel="stylesheet">
+
 </head>
 
 <body class="nav-md">
@@ -92,107 +208,240 @@ if (!isset($_SESSION['admin_id'])) {
 												</a>
 											</li>
 										</ul>
-										<form class="form-horizontal form-label-left" method="post"
-											enctype="multipart/form-data">
-											<div id="step-1">
-												<div class="form-group row">
-													<label
-														class="col-form-label col-md-3 col-sm-3 label-align">Temaplate
-														Name
-													</label>
-													<div class="col-md-6 col-sm-6 ">
-														<input type="text" required="required" class="form-control"
-															name="survey_name">
+										<form class="form-horizontal form-label-left" method="post" enctype="multipart/form-data">
+											<?php if (@$_GET['edit_template_id']) { ?>
+												<div id="step-1">
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">Temaplate
+															Name
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<input type="text" required="required" class="form-control" name="survey_name"
+																value="<?php echo @$row_template['Template_name']; ?>">
+														</div>
 													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-form-label col-md-3 col-sm-3 label-align">
-														Temaplate
-														Description
-													</label>
-													<div class="col-md-6 col-sm-6 ">
-														<textarea class="form-control "
-															name="survey_descripton"></textarea>
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">
+															Temaplate
+															Description
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<textarea class="form-control" name="survey_descripton"
+																value="<?php echo @$row_template['Template_description']; ?>"><?php echo $row_template['Template_description']; ?></textarea>
+														</div>
 													</div>
-												</div>
 
-												<div class="form-group row">
-													<label class="col-form-label col-md-3 col-sm-3 label-align">
-														Temaplate Category
-													</label>
-													<div class="col-md-6 col-sm-6 ">
-														<select class="form-control" required name="category">
-															<?php while ($row_category = mysqli_fetch_array($res_category)) { ?>
-																<option value="<?php echo $row_category['ID']; ?>">
-																	<?php echo $row_category['Category']; ?>
-																</option>
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">
+															Temaplate Category
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<select class="form-control" required name="category">
+																<?php while ($row_category = mysqli_fetch_array($res_category)) { ?>
+																	<option value="<?php echo $row_category['ID']; ?>" <?php if (@$row_template['Template_category'] == $row_category['ID']) {
+																			 echo 'selected';
+																		 } ?>>
+																		<?php echo $row_category['Category']; ?>
+																	</option>
+																<?php } ?>
+															</select>
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align"> Survey
+															Default
+															Description
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<textarea class="form-control " name="survey_default_descripton"
+																value="<?php echo @$row_template['Survey_description']; ?>"><?php echo $row_template['Survey_description']; ?></textarea>
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">Image</label>
+														<div class="col-md-6 col-sm-6 flex">
+															<input type="file" name="image">
+															<img src="../assets/panel/Images_Survey/<?php echo @$row_template['Template_image']; ?>"
+																alt="Template Image" width="100">
+														</div>
+													</div>
+												</div>
+												<div id="step-2">
+													<h2 class="StepTitle">Add Questions</h2>
+													<div class="col-md-9 p-3">
+														<div class="d-flex justify-content-between align-items-center">
+															<h4>Edit Template</h4>
+														</div>
+														<hr>
+
+														<div id="questions-container">
+															<?php
+															$c = 0;
+															while ($row_questions = mysqli_fetch_assoc($res_questions)) {
+																$c++;
+																?>
+																<div class="question-wrapper">
+																	<div class="mb-3 question-item">
+																		<label for="question<?php echo $c; ?>" class="form-label">Question
+																			<?php echo $c; ?></label>
+																		<input type="text" class="form-control" id="question<?php echo $c; ?>"
+																			placeholder="Enter your question" name="question<?php echo $c; ?>"
+																			value="<?php echo $row_questions['question']; ?>">
+																		<label class="form-label mt-2">Answer Type</label>
+																		<select class="form-select answer-type" name="anstype<?php echo $c; ?>">
+																			<option value="text" <?php if ($row_questions['answer_type'] == 'text')
+																				echo 'selected'; ?>>Text</option>
+																			<option value="textarea" <?php if ($row_questions['answer_type'] == 'textarea')
+																				echo 'selected'; ?>>Textarea
+																			</option>
+																			<option value="email" <?php if ($row_questions['answer_type'] == 'email')
+																				echo 'selected'; ?>>Email
+																			</option>
+																			<option value="tel" <?php if ($row_questions['answer_type'] == 'tel')
+																				echo 'selected'; ?>>Telephone
+																			</option>
+																			<option value="number" <?php if ($row_questions['answer_type'] == 'number')
+																				echo 'selected'; ?>>Number
+																			</option>
+																			<option value="rating" <?php if ($row_questions['answer_type'] == 'rating')
+																				echo 'selected'; ?>>Rating
+																			</option>
+																			<option value="select" <?php if ($row_questions['answer_type'] == 'select')
+																				echo 'selected'; ?>>Select
+																			</option>
+																			<option value="checkbox" <?php if ($row_questions['answer_type'] == 'checkbox')
+																				echo 'selected'; ?>>Checkbox
+																			</option>
+																			<option value="radio" <?php if ($row_questions['answer_type'] == 'radio')
+																				echo 'selected'; ?>>Radio
+																			</option>
+																		</select>
+																		<div class="options-container mt-2">
+
+																			<?php if (in_array($row_questions['answer_type'], ['radio', 'checkbox', 'select', 'rating'])) {
+																				$sql_option = "SELECT * FROM survey_options WHERE que_id = " . $row_questions['que_id'];
+																				$res_option = mysqli_query($con, $sql_option);
+																				$op_c = 0;
+																				while ($row_option = mysqli_fetch_assoc($res_option)) {
+																					$op_c++;
+																					?>
+																					<div class="option-item d-flex align-items-center mb-2">
+																						<input type="text" class="form-control" placeholder="Option"
+																							name="question<?php echo $c; ?>_option<?php echo $op_c; ?>"
+																							value="<?php echo $row_option['options']; ?>">
+																						<button type="button" class="btn btn-success btn-sm ms-2 add-option">+</button>
+																						<button type="button" class="btn btn-danger btn-sm ms-2 remove-option">-</button>
+																					</div>
+																				<?php }
+																			} ?>
+																		</div>
+																	</div>
+																	<button type="button" class="btn btn-secondary mt-2 add-between">Add
+																		Another
+																		Question</button>
+																	<button type="button" class="btn btn-danger mt-2 remove-question">Remove
+																		This
+																		Question</button>
+																</div>
+
 															<?php } ?>
-														</select>
-													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-form-label col-md-3 col-sm-3 label-align"> Survey
-														Default
-														Description
-													</label>
-													<div class="col-md-6 col-sm-6 ">
-														<textarea class="form-control "
-															name="survey_default_descripton"></textarea>
-													</div>
-												</div>
-												<div class="form-group row">
-													<label
-														class="col-form-label col-md-3 col-sm-3 label-align">Image</label>
-													<div class="col-md-6 col-sm-6 ">
-														<input type="file" name="image">
-													</div>
-												</div>
-											</div>
-											<div id="step-2">
-												<h2 class="StepTitle">Step 2 Content</h2>
-												<div class="col-md-9 p-3">
-													<div class="d-flex justify-content-between align-items-center">
-														<h4>Create Your Temaplate</h4>
-														
-													</div>
-													<hr>
-													<div id="questions-container">
-														<div class="question-wrapper">
-															<div class="mb-3 question-item">
-																<label for="question1"
-																	class="form-label">Question1</label>
-																<input type="text" class="form-control" id="question1"
-																	placeholder="Enter your question" name="question1">
-																<label class="form-label mt-2">Answer Type</label>
-																<select class="form-select answer-type" name="anstype1">
-																	<option value="text">Text</option>
-																	<option value="textarea">Text Area</option>
-																	<option value="email">Email</option>
-																	<option value="tel">Telephone</option>
-																	<option value="number">Number</option>
-																	<option value="rating">Rating</option>
-																	<option value="select">Select</option>
-																	<option value="checkbox">Checkbox</option>
-																	<option value="radio">Radio</option>
-																</select>
-																<div class="options-container mt-2"></div>
+															<div>
+																<input type="submit" name="save" value="Update" class="btn-save">
 															</div>
-															<button type="button"
-																class="btn btn-secondary mt-2 add-between">Add Another
-																Question</button>
-															<button type="button"
-																class="btn btn-danger mt-2 remove-question">Remove This
-																Question</button>
-
-														</div>
-														<div>
-																<input type="submit" name="save" value="Save" class="btn-save">
-
 														</div>
 													</div>
 												</div>
-											</div>
-											
+											<?php } else { ?>
+												<div id="step-1">
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">Temaplate
+															Name
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<input type="text" required="required" class="form-control" name="survey_name">
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">
+															Temaplate
+															Description
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<textarea class="form-control " name="survey_descripton"></textarea>
+														</div>
+													</div>
+
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">
+															Temaplate Category
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<select class="form-control" required name="category">
+																<?php while ($row_category = mysqli_fetch_array($res_category)) { ?>
+																	<option value="<?php echo $row_category['ID']; ?>">
+																		<?php echo $row_category['Category']; ?>
+																	</option>
+																<?php } ?>
+															</select>
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align"> Survey
+															Default
+															Description
+														</label>
+														<div class="col-md-6 col-sm-6 ">
+															<textarea class="form-control " name="survey_default_descripton"></textarea>
+														</div>
+													</div>
+													<div class="form-group row">
+														<label class="col-form-label col-md-3 col-sm-3 label-align">Image</label>
+														<div class="col-md-6 col-sm-6 ">
+															<input type="file" name="image">
+														</div>
+													</div>
+												</div>
+												<div id="step-2">
+													<h2 class="StepTitle">Step 2 Content</h2>
+													<div class="col-md-9 p-3">
+														<div class="d-flex justify-content-between align-items-center">
+															<h4>Create Your Temaplate</h4>
+														</div>
+														<hr>
+														<div id="questions-container">
+															<div class="question-wrapper">
+																<div class="mb-3 question-item">
+																	<label for="question1" class="form-label">Question1</label>
+																	<input type="text" class="form-control" id="question1" placeholder="Enter your question"
+																		name="question1">
+																	<label class="form-label mt-2">Answer Type</label>
+																	<select class="form-select answer-type" name="anstype1">
+																		<option value="text">Text</option>
+																		<option value="textarea">Text Area</option>
+																		<option value="email">Email</option>
+																		<option value="tel">Telephone</option>
+																		<option value="number">Number</option>
+																		<option value="rating">Rating</option>
+																		<option value="select">Select</option>
+																		<option value="checkbox">Checkbox</option>
+																		<option value="radio">Radio</option>
+																	</select>
+																	<div class="options-container mt-2"></div>
+																</div>
+																<button type="button" class="btn btn-secondary mt-2 add-between">Add Another
+																	Question</button>
+																<button type="button" class="btn btn-danger mt-2 remove-question">Remove This
+																	Question</button>
+
+															</div>
+															<div>
+																<input type="submit" name="submit" value="Save" class="btn-save">
+
+															</div>
+														</div>
+													</div>
+												</div>
+											<?php } ?>
 										</form>
 									</div>
 								</div>
@@ -272,7 +521,7 @@ if (!isset($_SESSION['admin_id'])) {
 			switch (select.value) {
 				case 'select':
 				case 'radio':
-				case 'checkbox': 
+				case 'checkbox':
 					optionsContainer.innerHTML = `
 				<label class="form-label">Options</label>
 				<div class="option-item d-flex align-items-center mb-2">

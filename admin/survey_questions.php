@@ -2,16 +2,12 @@
 session_start();
 if (!isset($_SESSION['admin_id'])) {
   header("location:index.php");
-  exit;
 }
+$con = mysqli_connect("localhost", "root", "", "online_survey_system");
 
-if (!isset($_GET["template_id"])) {
-  header("location:survey_template.php");
-  exit;
-}
+if (isset($_GET["template_id"])) {
 
 $template_id = $_GET["template_id"];
-$con = mysqli_connect("localhost", "root", "", "online_survey_system");
 
 $sql_template = "SELECT * FROM survey_templates WHERE ID = $template_id";
 $res_template = mysqli_query($con, $sql_template);
@@ -19,6 +15,15 @@ $template = mysqli_fetch_array($res_template);
 
 $sql_questions = "SELECT * FROM survey_questions WHERE template_id=$template_id AND created_by='admin'";
 $res_questions = mysqli_query($con, $sql_questions);
+}elseif($_GET['delete_template_id'])
+{
+  $del_id = $_GET['delete_template_id'];
+  $sql_del_temp = "DELETE FROM survey_templates WHERE ID = $del_id";
+  $res_del_temp = mysqli_query($con,$sql_del_temp);
+  header("location:survey_template.php");
+}else{
+  header("location:survey_template.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -56,6 +61,55 @@ $res_questions = mysqli_query($con, $sql_questions);
       margin-bottom: 8px;
       box-sizing: border-box;
     }
+    .x_title h2 {
+      font-size: 16px;
+      word-spacing: 3px;
+      letter-spacing: 0.1px;
+      font-weight: 450;
+      line-height: 20px;
+    }
+
+    .x_content {
+      font-size: 16px;
+      word-spacing: 3px;
+      letter-spacing: 0.1px;
+      font-weight: 450;
+      line-height: 25px;
+    }
+
+    .ans {
+      width: 70%;
+      padding: 5px 20px;
+      margin-bottom: 8px;
+      box-sizing: border-box;
+    }
+
+    .btn-template {
+      background-color: #0144fff2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-template:hover {
+      background-color: #0144ff;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+      color: white;
+    }
+
+    .btn-link {
+      display: inline !important;
+      float: right;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      display: block;
+    }
   </style>
 </head>
 
@@ -67,8 +121,12 @@ $res_questions = mysqli_query($con, $sql_questions);
       <div class="right_col" role="main">
         <div class="">
           <div class="page-title">
-            <div class="title_left">
-              <h3><?php echo $template['Template_name']; ?></h3>
+            <div class="title_left" style="width: 100%;" >
+              <h3 style="display: inline;"><?php echo $template['Template_name']; ?></h3>
+              <a href="survey_creation.php?edit_template_id=<?php echo $template['ID']; ?>" class="btn-link"> <button
+                  class="btn-template">Edit Template </button></a>
+              <a href="survey_questions.php?delete_template_id=<?php echo $template['ID']; ?>" class="btn-link"> <button
+                  class="btn-template">Delete Template </button></a>
             </div>
           </div>
 

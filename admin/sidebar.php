@@ -40,6 +40,7 @@ if (!isset($_SESSION['admin_id'])) {
           </li>
           <li><a href="surveys.php"><i class="fa fa-paper-plane"></i>Collected Survey </a></li>
           <li><a href="feedback.php"><i class="fa fa-question-circle"></i>FeedBack & Queries</a></li>
+          <li><a href="contactus.php"><i class="fa fa-question-circle"></i>Conatact Us</a></li>
         </ul>
       </div>
     </div>
