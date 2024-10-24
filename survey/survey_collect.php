@@ -116,7 +116,12 @@ if (!isset($_SESSION['survey_creator'])) {
       </div>
     </div>
   </div>
-  </div>
+  <footer>
+    <div class="pull-right">
+      Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
   <script>
     function copyText() {
       var text = document.getElementById("textToCopy").innerText;

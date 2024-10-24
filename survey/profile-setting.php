@@ -21,7 +21,7 @@ if (isset($_SESSION['survey_creator'])) {
     move_uploaded_file($_FILES['image']['tmp_name'], '../assets/panel/images/admin_image/' . $image);
     if ($_FILES['image']['name'] == "") {
       $image = $row['Image'];
-    } 
+    }
     $sql = "update survey_creator set Name='$name',Email='$email',Contact=$contact,Image='$image' WHERE ID = " . $data_id;
     $res = mysqli_query($con, $sql);
     header("location:profile.php");
@@ -69,13 +69,13 @@ if (isset($_SESSION['survey_creator'])) {
                       </label>
                       <div class="col-md-6 col-sm-6">
                         <input class="form-control" data-validate-length-range="6" data-validate-words="2" name="name"
-                          value="<?php echo @$row['Name']; ?>"  />
+                          value="<?php echo @$row['Name']; ?>" />
                       </div>
                     </div>
                     <div class="field item form-group">
                       <label class="col-form-label col-md-3 col-sm-3  label-align">Email </label>
                       <div class="col-md-6 col-sm-6">
-                        <input class="form-control" name="email" class='email'  type="email"
+                        <input class="form-control" name="email" class='email' type="email"
                           value="<?php echo @$row['Email']; ?>" />
                       </div>
                     </div>
@@ -83,7 +83,7 @@ if (isset($_SESSION['survey_creator'])) {
                       <label class="col-form-label col-md-3 col-sm-3  label-align">Telephone
                       </label>
                       <div class="col-md-6 col-sm-6">
-                        <input class="form-control" type="tel" class='tel' name="phone" 
+                        <input class="form-control" type="tel" class='tel' name="phone"
                           value="<?php echo @$row['Contact']; ?>" data-validate-length-range="8,20" />
                       </div>
                     </div>
@@ -91,7 +91,7 @@ if (isset($_SESSION['survey_creator'])) {
                       <label class="col-form-label col-md-3 col-sm-3  label-align">Image
                       </label>
                       <div class="col-md-6 col-sm-6">
-                        <input class="form-control" type="file" name="image"  value="<?php echo @$row['Image']; ?>" />
+                        <input class="form-control" type="file" name="image" value="<?php echo @$row['Image']; ?>" />
                       </div>
                     </div>
                     <div class="ln_solid">
@@ -111,7 +111,12 @@ if (isset($_SESSION['survey_creator'])) {
       </div>
     </div>
   </div>
-
+  <footer>
+    <div class="pull-right">
+      Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="../assets/panel/vendors/validator/multifield.js"></script>

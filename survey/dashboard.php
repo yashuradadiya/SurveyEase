@@ -73,72 +73,78 @@ if (!isset($_SESSION['survey_creator'])) {
         </div>
         <br />
         <div class="row">
-            <div class="col-md-12 col-sm-12 ">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>Recent Survey</h2>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="card-box table-responsive">
-                        <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-                          <thead>
+          <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel">
+              <div class="x_title">
+                <h2>Recent Survey</h2>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="card-box table-responsive">
+                      <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Survey Name</th>
+                            <th>Survey Created At</th>
+                            <th>Collect</th>
+                            <th>Analysis</th>
+                            <th>Response Chart</th> <!-- Add chart column -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php
+                          $cnt = 1;
+                          while ($row = mysqli_fetch_assoc($sur_res)) {
+                            ?>
                             <tr>
-                              <th>ID</th>
-                              <th>Survey Name</th>
-                              <th>Survey Created At</th>
-                              <th>Collect</th>
-                              <th>Analysis</th>
-                              <th>Response Chart</th> <!-- Add chart column -->
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php
-                            $cnt = 1;
-                            while ($row = mysqli_fetch_assoc($sur_res)) {
-                              ?>
-                              <tr>
-                                <td><?php echo $cnt; ?></td>
-                                <td><?php echo $row['name']; ?></td>
-                                <td><?php echo $row['Create_at']; ?></td>
-                                <td><a href="survey_collect.php?survey_id=<?php echo $row['ID']; ?>"><i
-                                      class="fa fa-paper-plane-o"></i></a></td>
-                                <td><a href="responces.php?survey_id=<?php echo $row['ID']; ?>"><i
-                                      class="fa fa-pie-chart"></i></a></td>
-                                <td>
-                                  <?php
-                                  // Get response data by survey
-                                  $sql_chart = "SELECT DATE(submit_at) as submit_date, COUNT(user_id) as user_count 
+                              <td><?php echo $cnt; ?></td>
+                              <td><?php echo $row['name']; ?></td>
+                              <td><?php echo $row['Create_at']; ?></td>
+                              <td><a href="survey_collect.php?survey_id=<?php echo $row['ID']; ?>"><i
+                                    class="fa fa-paper-plane-o"></i></a></td>
+                              <td><a href="responces.php?survey_id=<?php echo $row['ID']; ?>"><i
+                                    class="fa fa-pie-chart"></i></a></td>
+                              <td>
+                                <?php
+                                // Get response data by survey
+                                $sql_chart = "SELECT DATE(submit_at) as submit_date, COUNT(user_id) as user_count 
                                                 FROM responces_by 
-                                                WHERE survey_id = ".$row['ID']." 
+                                                WHERE survey_id = " . $row['ID'] . " 
                                                 GROUP BY DATE(submit_at)";
-                                  $res_chart = mysqli_query($con,$sql_chart);
-                                  $chart_dates = [];
-                                  $chart_counts = [];
-                                  while ($row_chart = mysqli_fetch_assoc($res_chart)){
-                                    $chart_dates[] = $row_chart['submit_date'];
-                                    $chart_counts[] = $row_chart['user_count'];
-                                  }
-                                  ?>
-                                  <canvas class="surveyChart" data-dates='<?php echo json_encode($chart_dates); ?>' 
-                                          data-counts='<?php echo json_encode($chart_counts); ?>' width="400" height="150">
-                                  </canvas>
-                                </td>
-                              </tr>
-                              <?php $cnt++;
-                            } ?>
-                          </tbody>
-                        </table>
-                      </div>
+                                $res_chart = mysqli_query($con, $sql_chart);
+                                $chart_dates = [];
+                                $chart_counts = [];
+                                while ($row_chart = mysqli_fetch_assoc($res_chart)) {
+                                  $chart_dates[] = $row_chart['submit_date'];
+                                  $chart_counts[] = $row_chart['user_count'];
+                                }
+                                ?>
+                                <canvas class="surveyChart" data-dates='<?php echo json_encode($chart_dates); ?>'
+                                  data-counts='<?php echo json_encode($chart_counts); ?>' width="400" height="150">
+                                </canvas>
+                              </td>
+                            </tr>
+                            <?php $cnt++;
+                          } ?>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
       </div>
+      <footer>
+        <div class="pull-right">
+          Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
     </div>
   </div>
 
@@ -153,7 +159,7 @@ if (!isset($_SESSION['survey_creator'])) {
   <script src="../assets/panel/build/js/custom.min.js"></script>
 
   <script>
-    document.querySelectorAll('.surveyChart').forEach(function(canvas) {
+    document.querySelectorAll('.surveyChart').forEach(function (canvas) {
       var dates = JSON.parse(canvas.getAttribute('data-dates'));
       var counts = JSON.parse(canvas.getAttribute('data-counts'));
 

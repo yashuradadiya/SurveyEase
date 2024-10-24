@@ -2,17 +2,16 @@
 session_start();
 if (!isset($_SESSION['admin_id'])) {
   header("location:index.php");
-} else{
+} else {
   $con = mysqli_connect("localhost", "root", "", "online_survey_system");
-  if(@$_GET['delete_category'])
-  {
+  if (@$_GET['delete_category']) {
     $del_id = $_GET['delete_category'];
     $sql_del = "DELETE FROM survey_category WHERE ID = $del_id";
-    $res_del = mysqli_query($con,$sql_del);
+    $res_del = mysqli_query($con, $sql_del);
     header("location:category.php");
-  }else{
-  $category_sql = "SELECT * FROM survey_category";
-  $category_res = mysqli_query($con, $category_sql);
+  } else {
+    $category_sql = "SELECT * FROM survey_category";
+    $category_res = mysqli_query($con, $category_sql);
   }
 }
 
@@ -78,10 +77,10 @@ if (!isset($_SESSION['admin_id'])) {
                               <tr>
                                 <td><?php echo $cnt; ?></td>
                                 <td><?php echo $row['Category']; ?></td>
-                                <td align="center"><a href="category_creation.php?edit_catgory=<?php echo $row['ID']; ?>" style="font-size: 15pt;"><i
-                                      class="fa fa-trash"></i></a></td>
-                                <td align="center"><a href="category.php?delete_category=<?php echo $row['ID']; ?>" style="font-size: 15pt;"><i
-                                      class="fa fa-trash"></i></a></td>
+                                <td align="center"><a href="category_creation.php?edit_catgory=<?php echo $row['ID']; ?>"
+                                    style="font-size: 15pt;"><i class="fa fa-edit"></i></a></td>
+                                <td align="center"><a href="category.php?delete_category=<?php echo $row['ID']; ?>"
+                                    style="font-size: 15pt;"><i class="fa fa-trash"></i></a></td>
                               </tr>
                               <?php $cnt++;
                             } ?>
@@ -98,6 +97,12 @@ if (!isset($_SESSION['admin_id'])) {
       </div>
     </div>
   </div>
+  <footer>
+    <div class="pull-right">
+      Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
   <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
   <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>

@@ -73,6 +73,7 @@ if (!isset($_SESSION['survey_creator'])) {
       </div>
       <footer>
         <div class="pull-right">
+          Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
         </div>
         <div class="clearfix"></div>
       </footer>

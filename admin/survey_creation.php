@@ -18,7 +18,7 @@ if (!isset($_SESSION['admin_id'])) {
 			$template_des = @$_POST['survey_descripton'];
 			$template_category = @$_POST['category'];
 			$survey_description = @$_POST['survey_default_descripton'];
-			$Template_image=$_FILES['image']['name'];
+			$Template_image = $_FILES['image']['name'];
 			if (isset($_GET['edit_template_id'])) {
 				if (@$_FILES['image']['name'] == "") {
 					$Template_image = $row_template['Template_image'];
@@ -27,7 +27,7 @@ if (!isset($_SESSION['admin_id'])) {
 					move_uploaded_file($_FILES['image']['tmp_name'], '../assets/panel/Image_Survey/' . $image);
 				}
 				$sql = "UPDATE survey_templates SET Template_name='$survey_name',Template_description='$template_des',Template_category='$template_category',Survey_description='$survey_description',Template_image='$Template_image' where ID = " . $edit_template_id;
-				$res = mysqli_query($con,$sql);
+				$res = mysqli_query($con, $sql);
 			}
 			$arr = $_POST;
 			$existing_questions = [];
@@ -91,11 +91,10 @@ if (!isset($_SESSION['admin_id'])) {
 				$que_row = mysqli_fetch_assoc($que_res);
 				$question_array_for_insert[] = $que_row['que_id'];
 			}
-			foreach ($existing_questions as $number => $question){
-				if(!in_array($question,$submitted_questions))
-				{
-					$sql_del_que = "DELETE FROM survey_questions WHERE question='".$question['question']."  AND template_id=$edit_template_id AND created_by = 'admin'";
-					$res_del_que = mysqli_query($con,$sql_del_que);
+			foreach ($existing_questions as $number => $question) {
+				if (!in_array($question, $submitted_questions)) {
+					$sql_del_que = "DELETE FROM survey_questions WHERE question='" . $question['question'] . "  AND template_id=$edit_template_id AND created_by = 'admin'";
+					$res_del_que = mysqli_query($con, $sql_del_que);
 				}
 			}
 
@@ -109,11 +108,10 @@ if (!isset($_SESSION['admin_id'])) {
 				$row_optiones = mysqli_fetch_assoc($res_optiones);
 				$submitted_options[$number]['option_id'] = $row_optiones['op_id'];
 			}
-			foreach ($existing_options as $number => $option){
-				if(!in_array($option,$submitted_options))
-				{
-					$sql_del_op = "DELETE FROM survey_options WHERE options='".$option['option']."  AND template_id=$".$option['question_number']." AND created_by = 'admin'";
-					$res_del_op = mysqli_query($con,$sql_del_op);
+			foreach ($existing_options as $number => $option) {
+				if (!in_array($option, $submitted_options)) {
+					$sql_del_op = "DELETE FROM survey_options WHERE options='" . $option['option'] . "  AND template_id=$" . $option['question_number'] . " AND created_by = 'admin'";
+					$res_del_op = mysqli_query($con, $sql_del_op);
 				}
 			}
 			header('location:survey_questions.php?template_id=' . $edit_template_id);
@@ -450,6 +448,12 @@ if (!isset($_SESSION['admin_id'])) {
 					</div>
 				</div>
 			</div>
+			<footer>
+        <div class="pull-right">
+          Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
 		</div>
 	</div>
 	<script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>

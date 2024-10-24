@@ -72,6 +72,7 @@ if (!isset($_SESSION['admin_id'])) {
       </div>
       <footer>
         <div class="pull-right">
+          Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
         </div>
         <div class="clearfix"></div>
       </footer>

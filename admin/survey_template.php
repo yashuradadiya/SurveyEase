@@ -62,9 +62,9 @@ if (!isset($_SESSION['admin_id'])) {
                                   src="../assets/panel/Images_Survey/<?php echo $row_sur['Template_image']; ?>"
                                   alt="image" />
                               </div>
-                          <div class="caption">
-                            <h6><?php echo $row_sur['Template_name']; ?></h6>
-                          </div>
+                              <div class="caption">
+                                <h6><?php echo $row_sur['Template_name']; ?></h6>
+                              </div>
                         </a>
                       </div>
                     </div>
@@ -77,8 +77,12 @@ if (!isset($_SESSION['admin_id'])) {
       </div>
     </div>
   </div>
-  </div>
-  </div>
+  <footer>
+    <div class="pull-right">
+      Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
   <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
   <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>

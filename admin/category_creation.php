@@ -87,7 +87,12 @@ if (isset($_GET['edit_catgory'])) {
       </div>
     </div>
   </div>
-
+  <footer>
+    <div class="pull-right">
+      Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="../assets/panel/vendors/validator/multifield.js"></script>

@@ -7,21 +7,20 @@ $con = mysqli_connect("localhost", "root", "", "online_survey_system");
 
 if (isset($_GET["template_id"])) {
 
-$template_id = $_GET["template_id"];
+  $template_id = $_GET["template_id"];
 
-$sql_template = "SELECT * FROM survey_templates WHERE ID = $template_id";
-$res_template = mysqli_query($con, $sql_template);
-$template = mysqli_fetch_array($res_template);
+  $sql_template = "SELECT * FROM survey_templates WHERE ID = $template_id";
+  $res_template = mysqli_query($con, $sql_template);
+  $template = mysqli_fetch_array($res_template);
 
-$sql_questions = "SELECT * FROM survey_questions WHERE template_id=$template_id AND created_by='admin'";
-$res_questions = mysqli_query($con, $sql_questions);
-}elseif($_GET['delete_template_id'])
-{
+  $sql_questions = "SELECT * FROM survey_questions WHERE template_id=$template_id AND created_by='admin'";
+  $res_questions = mysqli_query($con, $sql_questions);
+} elseif ($_GET['delete_template_id']) {
   $del_id = $_GET['delete_template_id'];
   $sql_del_temp = "DELETE FROM survey_templates WHERE ID = $del_id";
-  $res_del_temp = mysqli_query($con,$sql_del_temp);
+  $res_del_temp = mysqli_query($con, $sql_del_temp);
   header("location:survey_template.php");
-}else{
+} else {
   header("location:survey_template.php");
 }
 ?>
@@ -61,6 +60,7 @@ $res_questions = mysqli_query($con, $sql_questions);
       margin-bottom: 8px;
       box-sizing: border-box;
     }
+
     .x_title h2 {
       font-size: 16px;
       word-spacing: 3px;
@@ -121,7 +121,7 @@ $res_questions = mysqli_query($con, $sql_questions);
       <div class="right_col" role="main">
         <div class="">
           <div class="page-title">
-            <div class="title_left" style="width: 100%;" >
+            <div class="title_left" style="width: 100%;">
               <h3 style="display: inline;"><?php echo $template['Template_name']; ?></h3>
               <a href="survey_creation.php?edit_template_id=<?php echo $template['ID']; ?>" class="btn-link"> <button
                   class="btn-template">Edit Template </button></a>
@@ -198,7 +198,12 @@ $res_questions = mysqli_query($con, $sql_questions);
       </div>
     </div>
   </div>
-
+  <footer>
+    <div class="pull-right">
+      Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
   <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
   <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>

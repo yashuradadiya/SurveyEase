@@ -90,6 +90,12 @@ if (!isset($_SESSION['admin_id'])) {
       </div>
     </div>
   </div>
+  <footer>
+    <div class="pull-right">
+      Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+    </div>
+    <div class="clearfix"></div>
+  </footer>
   <script src="../assets/panel/vendors/jquery/dist/jquery.min.js"></script>
   <script src="../assets/panel/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/panel/vendors/fastclick/lib/fastclick.js"></script>

@@ -31,7 +31,6 @@ if (!isset($_SESSION['survey_creator'])) {
 </head>
 
 <style type="text/css">
-  /* Button Styling */
   .survey-btn {
     display: inline-block;
     margin-left: 43%;
@@ -112,16 +111,16 @@ if (!isset($_SESSION['survey_creator'])) {
                 <?php if ($row_que['answer_type'] == 'radio' || $row_que['answer_type'] == 'checkbox' || $row_que['answer_type'] == 'SELECT') {
                   ?>
                   <ol>
-                  <?php
-                  foreach ($option_array as $option_id) {
-                    $sql_option = "SELECT * FROM survey_options WHERE op_id=$option_id";
-                    $res_option = mysqli_query($con, $sql_option);
-                    while ($row_option = mysqli_fetch_assoc($res_option)) {
-                      ?>
-                      <li><?php echo $row_option['options']; ?></li>
-                    <?php }
-                  }
-                  ?>
+                    <?php
+                    foreach ($option_array as $option_id) {
+                      $sql_option = "SELECT * FROM survey_options WHERE op_id=$option_id";
+                      $res_option = mysqli_query($con, $sql_option);
+                      while ($row_option = mysqli_fetch_assoc($res_option)) {
+                        ?>
+                        <li><?php echo $row_option['options']; ?></li>
+                      <?php }
+                    }
+                    ?>
                   </ol>
                   <?php
                 } elseif ($row_que['answer_type'] == 'textarea') { ?>
@@ -141,13 +140,16 @@ if (!isset($_SESSION['survey_creator'])) {
 
             } ?>
           </div>
-          
         </div>
       </div>
     </div>
   </div>
-  </div>
-  </div>
+  <footer>
+        <div class="pull-right">
+          Copyright &copy; 2024 <a href="../../SurveyEase/">SurveyEase</a>
+        </div>
+        <div class="clearfix"></div>
+      </footer>
 </body>
 
 </html>
